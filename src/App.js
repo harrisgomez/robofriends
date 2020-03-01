@@ -4,7 +4,8 @@ import 'tachyons';
 
 import CardList from './CardList';
 import SearchBox from './SearchBox';
-import { robots } from './robots';
+import Scroll from './Scroll';
+// import { robots } from './robots';
 
 class App extends Component {
     constructor() {
@@ -21,31 +22,31 @@ class App extends Component {
             .then(users => this.setState({ robots: users }));
     }
 
-    onSearchChange = e => {        
+    onSearchChange = e => {
         this.setState({
             searchVal: e.target.value
         });
     }
-    
+
     render() {
         const filteredRobots = this.state.robots.filter(robot => {
             return robot.name.toLowerCase().includes(this.state.searchVal.toLowerCase());
         });
-        const isLoading = this.state.robots.length === 0;        
+        const isLoading = this.state.robots.length === 0;
 
         return (
             <div className="tc">
+                <h1 className='f1'>RoboFriends</h1>
+                <SearchBox
+                    handleSearch={this.onSearchChange}
+                />
                 {isLoading ? (
                     <h1>Loading...</h1>
                 ) : (
-                        <div>
-                            <h1 className='f1'>RoboFriends</h1>
-                            <SearchBox
-                                handleSearch={this.onSearchChange}
-                            />
-                            <CardList robots={filteredRobots} /></div>
-                    )
-                }
+                    <Scroll>
+                        <CardList robots={filteredRobots} />
+                    </Scroll>
+                )}
             </div>
         );
     }
