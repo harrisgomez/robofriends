@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import 'tachyons';
 
-import CardList from './CardList';
-import SearchBox from './SearchBox';
-import Scroll from './Scroll';
+import CardList from '../components/CardList';
+import SearchBox from '../components/SearchBox';
+import Scroll from '../components/Scroll';
 // import { robots } from './robots';
 
 class App extends Component {
@@ -29,10 +29,11 @@ class App extends Component {
     }
 
     render() {
-        const filteredRobots = this.state.robots.filter(robot => {
-            return robot.name.toLowerCase().includes(this.state.searchVal.toLowerCase());
+        const { robots, searchVal } = this.state;
+        const filteredRobots = robots.filter(robot => {
+            return robot.name.toLowerCase().includes(searchVal.toLowerCase());
         });
-        const isLoading = this.state.robots.length === 0;
+        const isLoading = robots.length === 0;
 
         return (
             <div className="tc">
@@ -43,9 +44,9 @@ class App extends Component {
                 {isLoading ? (
                     <h1>Loading...</h1>
                 ) : (
-                    <Scroll>
-                        <CardList robots={filteredRobots} />
-                    </Scroll>
+                        <Scroll>
+                            <CardList robots={filteredRobots} />
+                        </Scroll>
                 )}
             </div>
         );
