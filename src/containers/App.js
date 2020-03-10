@@ -5,6 +5,7 @@ import 'tachyons';
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Scroll from '../components/Scroll';
+import ErrorBoundary from '../components/ErrorBoundary';
 // import { robots } from './robots';
 
 class App extends Component {
@@ -44,9 +45,11 @@ class App extends Component {
                 {isLoading ? (
                     <h1>Loading...</h1>
                 ) : (
-                        <Scroll>
+                    <Scroll>
+                        <ErrorBoundary>
                             <CardList robots={filteredRobots} />
-                        </Scroll>
+                        </ErrorBoundary>
+                    </Scroll>
                 )}
             </div>
         );
