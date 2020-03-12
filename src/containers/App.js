@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import 'tachyons';
 
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
@@ -18,6 +17,7 @@ class App extends Component {
     }
 
     componentDidMount() {
+        const x = 123;
         fetch('https://jsonplaceholder.typicode.com/users')
             .then(res => res.json())
             .then(users => this.setState({ robots: users }));
