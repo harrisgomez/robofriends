@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
-import 'tachyons';
 
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Scroll from '../components/Scroll';
 import ErrorBoundary from '../components/ErrorBoundary';
-// import { robots } from './robots';
 
 class App extends Component {
     constructor() {
@@ -17,7 +15,7 @@ class App extends Component {
         };
     }
 
-    componentDidMount() {
+    componentDidMount() {        
         fetch('https://jsonplaceholder.typicode.com/users')
             .then(res => res.json())
             .then(users => this.setState({ robots: users }));
