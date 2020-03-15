@@ -3,13 +3,15 @@ import ReactDOM from 'react-dom';
 import App from './containers/App';
 import * as serviceWorker from './serviceWorker';
 import { searchRobots } from './reducers';
-import { createStore } from 'redux'; //* Creates a store from our reducer(s) 
-import { Provider } from 'react-redux'; //* The <Provider/> propagates access to our state obj tree from <App/> to components
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import { createLogger } from 'redux-logger'; //* Logs the prevState, action that was triggered, and newState. A chronilogical list of actions the user performed
 import './index.css';
 import 'tachyons';
 
-const store = createStore(searchRobots); //* Create store by passing in root reducer and provide as prop to <Provider/>
 const rootEl = document.getElementById('root');
+const logger = createLogger();
+const store = createStore(searchRobots, applyMiddleware(logger)); //* Create store by passing in root reducer and provide as prop to <Provider/>
 
 ReactDOM.render(
     <Provider store={store}>

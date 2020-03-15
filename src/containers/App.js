@@ -59,5 +59,4 @@ const mapDispatchToProps = dispatch => ({
     onSearchChange: event => dispatch(setSearchField(event.target.value))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App); //* Subscribes <App/> to any state changes in the redux store
-//* mapStateToProps provides <App/> with our initState {searchInputVal, test}
+export default connect(mapStateToProps, mapDispatchToProps)(App); //* Subscribes <App/> to store updates as well as its dispatch() method for triggering actions
