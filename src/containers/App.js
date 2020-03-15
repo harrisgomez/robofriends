@@ -1,36 +1,32 @@
 import React, { Component } from 'react';
-import './App.css';
-
+import { connect } from 'react-redux'; //* Provides store & actions via props
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Scroll from '../components/Scroll';
 import ErrorBoundary from '../components/ErrorBoundary';
+import './App.css';
+
+import { setSearchField } from '../actions';
 
 class App extends Component {
     constructor() {
         super();
         this.state = {
-            robots: [],
-            searchVal: ''
+            robots: []
         };
     }
 
-    componentDidMount() {        
+    componentDidMount() {
         fetch('https://jsonplaceholder.typicode.com/users')
             .then(res => res.json())
             .then(users => this.setState({ robots: users }));
     }
 
-    onSearchChange = e => {
-        this.setState({
-            searchVal: e.target.value
-        });
-    }
-
     render() {
-        const { robots, searchVal } = this.state;
+        const { robots } = this.state;
+        const { searchInputVal, onSearchChange } = this.props;
         const filteredRobots = robots.filter(robot => {
-            return robot.name.toLowerCase().includes(searchVal.toLowerCase());
+            return robot.name.toLowerCase().includes(searchInputVal.toLowerCase());
         });
         const isLoading = robots.length === 0;
 
@@ -38,20 +34,30 @@ class App extends Component {
             <div className="tc">
                 <h1 className='f1'>RoboFriends</h1>
                 <SearchBox
-                    handleSearch={this.onSearchChange}
+                    handleSearch={onSearchChange}
+                    searchInputVal={searchInputVal}
                 />
                 {isLoading ? (
                     <h1>Loading...</h1>
                 ) : (
-                    <Scroll>
-                        <ErrorBoundary>
-                            <CardList robots={filteredRobots} />
-                        </ErrorBoundary>
-                    </Scroll>
-                )}
+                        <Scroll>
+                            <ErrorBoundary>
+                                <CardList robots={filteredRobots} />
+                            </ErrorBoundary>
+                        </Scroll>
+                    )}
             </div>
         );
     }
 }
 
-export default App;
+const mapStateToProps = state => ({
+    searchInputVal: state.searchInputVal,
+});
+
+const mapDispatchToProps = dispatch => ({
+    onSearchChange: event => dispatch(setSearchField(event.target.value))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App); //* Subscribes <App/> to any state changes in the redux store
+//* mapStateToProps provides <App/> with our initState {searchInputVal, test}

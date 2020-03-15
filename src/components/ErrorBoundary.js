@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+//! For catching component errors in production build
 class ErrorBoundary extends Component {
     constructor(props) {
        super(props);

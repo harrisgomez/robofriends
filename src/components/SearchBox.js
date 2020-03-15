@@ -8,7 +8,7 @@ const SearchBox = props => (
             type="search"
             placeholder="search robots"
             onChange={props.handleSearch}
-            value={props.searchVal}
+            value={props.searchInputVal}
         />
     </div>
 );

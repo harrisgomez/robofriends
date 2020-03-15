@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import * as serviceWorker from './serviceWorker';
-import './index.css';
-import 'tachyons';
 import App from './containers/App';
+import * as serviceWorker from './serviceWorker';
 import { searchRobots } from './reducers';
 import { createStore } from 'redux'; //* Creates a store from our reducer(s) 
 import { Provider } from 'react-redux'; //* The <Provider/> propagates access to our state obj tree from <App/> to components
+import './index.css';
+import 'tachyons';
 
 const store = createStore(searchRobots); //* Create store by passing in root reducer and provide as prop to <Provider/>
 const rootEl = document.getElementById('root');
