@@ -1,34 +1,23 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'; //* Provides store & actions via props
+import { connect } from 'react-redux'; //* Provides store methods & actions via props
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Scroll from '../components/Scroll';
 import ErrorBoundary from '../components/ErrorBoundary';
 import './App.css';
 
-import { setSearchField } from '../actions';
+import { setSearchField, requestRobots } from '../actions';
 
 class App extends Component {
-    constructor() {
-        super();
-        this.state = {
-            robots: []
-        };
-    }
-
     componentDidMount() {
-        fetch('https://jsonplaceholder.typicode.com/users')
-            .then(res => res.json())
-            .then(users => this.setState({ robots: users }));
+        this.props.onRequestRobots();
     }
 
     render() {
-        const { robots } = this.state;
-        const { searchInputVal, onSearchChange } = this.props;
+        const { searchInputVal, onSearchChange, isFetching, robots } = this.props;
         const filteredRobots = robots.filter(robot => {
             return robot.name.toLowerCase().includes(searchInputVal.toLowerCase());
         });
-        const isLoading = robots.length === 0;
 
         return (
             <div className="tc">
@@ -37,7 +26,7 @@ class App extends Component {
                     handleSearch={onSearchChange}
                     searchInputVal={searchInputVal}
                 />
-                {isLoading ? (
+                {isFetching ? (
                     <h1>Loading...</h1>
                 ) : (
                         <Scroll>
@@ -52,11 +41,15 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-    searchInputVal: state.searchInputVal,
+    searchInputVal: state.searchRobots.searchInputVal,
+    robots: state.requestRobots.robots,
+    isFetching: state.requestRobots.isFetching,
+    err: state.requestRobots.err
 });
 
 const mapDispatchToProps = dispatch => ({
-    onSearchChange: event => dispatch(setSearchField(event.target.value))
+    onSearchChange: event => dispatch(setSearchField(event.target.value)),
+    onRequestRobots: () => dispatch(requestRobots())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App); //* Subscribes <App/> to store updates as well as its dispatch() method for triggering actions
